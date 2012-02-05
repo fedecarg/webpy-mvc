@@ -46,7 +46,7 @@ web.config.database = web.database(dbn='sqlite', db='db/example.sqlite')
 
 **MySQL and Postgres**
 
-If you choose to use MySQL or Postgres instead of the shipped SQLite database, your config/application.py will look a little different: 
+If you choose to use MySQL or Postgres instead of the shipped SQLite database, your config/application.py will look something like this: 
 
 ```python
 web.config.database = web.database(dbn='mysql', user='username', pw='password', db='example')
@@ -69,7 +69,7 @@ web.config.database = web.database(dbn='mysql', user='username', pw='password', 
 
 ## Controllers
 
-Controller classes inherit from ApplicationController, a base class that contains code that can be run in all your controllers. Controllers are made up of one or more actions that are executed on request and then either render a template or redirect to another action. It's up to you what name you want to give to these methods, but better to give relevant names. Everything is done very much “the rails way”. Here is a sample rails controller and its equivalent in mvc.py:
+Controller classes inherit from ApplicationController, a base class that contains code that can be run in all your controllers. Controllers are made up of one or more actions that are executed on request and then either render a template or redirect to another action. It's up to you what name you want to give to these methods. Everything is done very much “the rails way”. Here is a sample rails controller and its equivalent in mvc.py:
 
 ### rails controller
 
@@ -119,8 +119,8 @@ class BooksController(ApplicationController)
         book = Book.find(id)
         return self.render(book=book)
         
-    def new(self, error=None):
-        book = Book
+    def new(self):
+        book = Book()
         subjects = Subject.find('all')
         return self.render(book=book, subjects=subjects)
     
@@ -129,7 +129,8 @@ class BooksController(ApplicationController)
         if book.save():
             return self.redirect_to(action='index')
         else:
-            return self.redirect_to(action='new', 'error message') 
+            subjects = Subject.find('all')
+            return self.render('new', book=book, subjects=subjects, error='Error message') 
     
     def delete(self, id):
         Book.find(id).delete()
