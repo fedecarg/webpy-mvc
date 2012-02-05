@@ -11,21 +11,15 @@ The module mvc.py provides MVC support to the existing [web.py](http://webpy.org
 
 1. Install web.py using pip ([other options here](http://webpy.org/install))
 
-```
-    $ pip install web.py
-```
+        $ pip install web.py
 
 2. Download mvc.py
 
-```    
-    $ curl -L https://github.com/fedecarg/webpy-mvc/tarball/ | tar xzf
-```
+        $ curl -L https://github.com/fedecarg/webpy-mvc/tarball/ | tar xzf
 
 3. Start up the web server
 
-```
-    $ python app.py
-```
+        $ python app.py
 
 4. Have a cup of tea (optional)
 
@@ -47,7 +41,6 @@ web.py works with many database systems, including MySQL, PostgreSQL and SQLite.
 **SQLite**
 
 ```python
-# database connection
 web.config.database = web.database(dbn='sqlite', db='db/example.sqlite')
 ```
 
@@ -56,13 +49,10 @@ web.config.database = web.database(dbn='sqlite', db='db/example.sqlite')
 If you choose to use MySQL or Postgres instead of the shipped SQLite database, your config/application.py will look a little different: 
 
 ```python
-# database connection
 web.config.database = web.database(dbn='mysql', user='username', pw='password', db='example')
 ```
 
 ## Directory structure
-
-You will find a directory structure as follows:
 
 + **app**: Application package that organizes your application MVC components.  
 + **app/controllers**: The controllers subdirectory is where mvc.py looks to find controller classes.   
@@ -70,12 +60,83 @@ You will find a directory structure as follows:
 + **app/models**: The models subdirectory holds the classes that model and wrap the data stored in our application's database.  
 + **app/views**: The views subdirectory holds the display templates to fill in with data from our application, convert to HTML, and return to the user's browser.   
 + **app/views/layouts**: Holds the template files for layouts to be used with views.    
-+ **config**: This directory contains the small amount of configuration code that your application will need, including your database configuration (in database.yml), your mvc.py environment structure (environment.rb), and routing of incoming web requests (routes.rb). You can also tailor the behavior of the three mvc.py environments for test, development, and deployment with files found in the environments directory.    
++ **config**: This directory contains the small amount of configuration code that your application will need, including your database configuration and mvc.py environment structure.    
 + **db**: Database schema, data and migration files.    
 + **lib**: You'll put libraries here, unless they explicitly belong elsewhere.  
 + **static**: This directory has web files that don't change, such as JavaScript files, graphics and stylesheets.   
 + **test**: The unit tests and doctests you write go here.  
 + **vendor**: Libraries provided by third-party vendors go here.    
+
+## Controllers
+
+Controller classes inherit from ApplicationController, which is the other file in the controllers folder: application.py.
+
+The ApplicationController contains code that can be run in all your controllers. It's up to you what name you want to give to these methods, but better to give relevant names. 
+
+Everything is done very much “the rails way”, for example:
+
+rails controller:
+```ruby
+class BooksController < ApplicationController
+
+    def list
+        @books = Book.find(:all)
+    end
+    
+    def show
+        @book = Book.find(params[:id])
+    end
+    
+    def new
+        @book = Book.new
+        @subjects = Subject.find(:all)
+    end
+    
+    def create
+        @book = Book.new(params[:book])
+        if @book.save
+            redirect_to :action = > 'list'
+        else
+            @subjects = Subject.find(:all)
+            render :action = > 'new'
+        end
+    end
+    
+    def delete
+        Book.find(params[:id]).destroy
+        redirect_to :action = > 'list'
+    end
+end
+```
+
+mvc.py controller: 
+```python
+class BooksController(ApplicationController)
+
+    def index(self):
+        books = Book.find('all')
+        return self.render(books=books)
+        
+    def show(self, id):
+        book = Book.find(id)
+        return self.render(book=book)
+        
+    def new(self, error=None):
+        book = Book
+        subjects = Subject.find('all')
+        return self.render(book=book, subjects=subjects)
+    
+    def create(self):
+        book = Book(self.params['book'])
+        if book.save():
+            return self.redirect_to(action='index')
+        else:
+            return self.redirect_to(action='new', 'error message') 
+    
+    def delete(self, id):
+        Book.find(id).delete()
+        return self.redirect_to(action='index')
+```
 
 ## Feedback
 
