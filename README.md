@@ -137,6 +137,10 @@ class BooksController(ApplicationController)
         return self.redirect_to(action='index')
 ```
 
+## The Default 500 and 404 Templates
+
+By default an application will render either a 404 or a 500 error message. These messages are contained in static HTML files in the app/views/errors folder, in 404.html and 500.html respectively. You can customize these files to add some extra information and layout.
+
 ## Feedback
 
 If for whatever reason you spot something to fix but cannot patch it yourself, please open an issue.  Also, any kind of discussion regarding web frameworks is more than welcome.
