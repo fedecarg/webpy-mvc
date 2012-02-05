@@ -137,6 +137,62 @@ class BooksController(ApplicationController)
         return self.redirect_to(action='index')
 ```
 
+## Renders
+
+Application Controller sends content to the user by using the render method, which enables rendering of HTML templates. The controller passes a dictionary to the view using the render method:
+
+```python
+class BooksController(ApplicationController)
+    def index(self):
+        return self.render(title='home')
+```
+
+Accessing URL parameters in your controller action:
+
+```python
+class BooksController(ApplicationController)
+    def edit(self, id):
+        return self.render(id=id)
+```
+
+Rendering a view that corresponds to a different action within the same controller:
+
+```python
+class BooksController(ApplicationController)
+    def index(self):
+        return self.render('foo')
+```
+
+Rendering an action's template from another controller:
+
+```python
+class BooksController(ApplicationController)
+
+```
+
+Specifying a layout for a current controller:
+
+```python
+class BooksController(ApplicationController)
+
+```
+
+Specifying a layout for a current action:
+
+```python
+class BooksController(ApplicationController)
+
+```
+
+Using the initialize method to put default values into instance variables:
+
+
+```python
+class BooksController(ApplicationController)
+
+```
+
+
 ## The Default 500 and 404 Templates
 
 By default an application will render either a 404 or a 500 error message. These messages are contained in static HTML files in the app/views/errors folder, in 404.html and 500.html respectively. You can customize these files to add some extra information and layout.
