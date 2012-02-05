@@ -9,15 +9,15 @@ The module mvc.py provides MVC support to the existing [web.py](http://webpy.org
 
 ## Installation
 
-1. Install web.py using pip ([other options here](http://webpy.org/install))
+1. Install web.py using pip:
 
         $ pip install web.py
 
-2. Download mvc.py
+2. Download mvc.py:
 
         $ curl -L https://github.com/fedecarg/webpy-mvc/tarball/ | tar xzf
 
-3. Start up the web server
+3. Start up the web server:
 
         $ python app.py
 
@@ -69,13 +69,10 @@ web.config.database = web.database(dbn='mysql', user='username', pw='password', 
 
 ## Controllers
 
-Controller classes inherit from ApplicationController, which is the other file in the controllers folder: application.py.
+Controller classes inherit from ApplicationController, a base class that contains code that can be run in all your controllers. Controllers are made up of one or more actions that are executed on request and then either render a template or redirect to another action. It's up to you what name you want to give to these methods, but better to give relevant names. Everything is done very much “the rails way”. Here is a sample rails controller and its equivalent in mvc.py:
 
-The ApplicationController contains code that can be run in all your controllers. It's up to you what name you want to give to these methods, but better to give relevant names. 
+### rails controller
 
-Everything is done very much “the rails way”, for example:
-
-rails controller:
 ```ruby
 class BooksController < ApplicationController
 
@@ -109,7 +106,8 @@ class BooksController < ApplicationController
 end
 ```
 
-mvc.py controller: 
+### mvc.py controller
+
 ```python
 class BooksController(ApplicationController)
 
