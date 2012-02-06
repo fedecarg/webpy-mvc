@@ -1,6 +1,7 @@
 ## Introduction
+- - -
 
-The module mvc.py provides MVC support to the existing [web.py](http://webpy.org/) Python framework.
+mvc.py provides mvc support to the existing [web.py](http://webpy.org/) python framework.
 
 ## Requirements
 
@@ -25,7 +26,7 @@ The module mvc.py provides MVC support to the existing [web.py](http://webpy.org
 
 ## Configuration
 
-The configuration file config/application.py and environment-specific configuration files (such as config/environments/production.py) allow you to specify the various settings that you want to pass down to the mvc.py module.
+The configuration file config/application.py and environment-specific configuration files allow you to specify the various settings that you want to pass down to the mvc.py module.
 
 For example, the default config/application.py file includes this setting:
 
@@ -137,9 +138,9 @@ class BooksController(ApplicationController)
         return self.redirect_to(action='index')
 ```
 
-## Renders
+## Views
 
-Application Controller sends content to the user by using the render method, which enables rendering of HTML templates. The controller passes a dictionary to the view using the render method:
+If you look in the app/views directory, you will see one subdirectory for each of the controllers we have in app/controllers.Application Controller sends content to the user by using the render method, which enables rendering of HTML templates. The controller passes a dictionary to the view using the render method:
 
 ```python
 class BooksController(ApplicationController)
@@ -167,29 +168,37 @@ Rendering an action's template from another controller:
 
 ```python
 class BooksController(ApplicationController)
-
+    def index(self):
+        return self.render('books/index')
 ```
 
 Specifying a layout for a current controller:
 
 ```python
 class BooksController(ApplicationController)
-
+    layout = 'mobile'
+    
+    def index(self):
+        return self.render()
 ```
 
 Specifying a layout for a current action:
 
 ```python
 class BooksController(ApplicationController)
-
+    def index(self):
+        return self.render(layout='mobile')
 ```
 
 Using the initialize method to put default values into instance variables:
 
-
 ```python
 class BooksController(ApplicationController)
+    def initialize(self):
+        self.title = 'home page'
 
+    def index(self):
+        return self.render(title=self.title)
 ```
 
 
