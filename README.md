@@ -53,6 +53,42 @@ If you choose to use MySQL or Postgres instead of the shipped SQLite database, y
 web.config.database = web.database(dbn='mysql', user='username', pw='password', db='example')
 ```
 
+## Routing
+
+web.py's URL handling scheme is simple yet powerful and flexible. at the top of each application, you usually see the full URL dispatching scheme defined as a tuple:
+
+```python
+urlpatterns = (
+    '/books/new',    {'controller':'books', 'action':'new'},
+    '/books/create', {'controller':'books', 'action':'create'},
+    '/books',        {'controller':'books', 'action':'index'},
+    '/',             {'controller':'index', 'action':'index'}
+)
+```
+Routes have priority defined by the order of appearance of the routes. The priority goes from top to bottom. The last route in that file is at the lowest priority will be applied last. If no route matches, 404 is returned.
+
+You can utilize the power of regular expressions to design more flexible url patterns. For example, /books/(new|create) will catch either new or create. The key point to understand is that this matching happens on the path of your URL. For example:
+
+```python
+urlpatterns = (
+    '/books/(new|create)', {'controller':'books', 'action':'{0}'},
+    '/books',              {'controller':'books', 'action':'index'},
+    '/',                   {'controller':'index', 'action':'index'}
+)
+```
+
+In the url pattern you can catch parameters which can be used in your handler class:
+
+```python
+urlpatterns = (
+    '/books/(new|create)',          {'controller':'books', 'action':'{0}'},
+    '/books/(\d+)/(edit|delete)',   {'controller':'books', 'action':'{1}'},
+    '/books/(\d+)',                 {'controller':'books', 'action':'show'},
+    '/books',                       {'controller':'books', 'action':'index'},
+    '/',                            {'controller':'index', 'action':'index'}
+)
+```
+
 ## Controllers
 
 Controller classes inherit from ApplicationController, a base class that contains code that can be run in all your controllers. Controllers are made up of one or more actions that are executed on request and then either render a template or redirect to another action. It's up to you what name you want to give to these methods. Everything is done very much “the rails way”. Here is a sample rails controller and its equivalent in mvc.py:
@@ -125,7 +161,7 @@ class BooksController(ApplicationController)
 
 ## Views
 
-If you look in the app/views directory, you will see one subdirectory for each of the controllers we have in app/controllers. Application Controller sends content to the user by using the render method, which enables rendering of HTML templates. The controller passes a dictionary to the view using the render method:
+If you look in the app/views directory, you will see one subdirectory for each of the controllers we have in app/controllers. Application Controller sends content to the user by using the render method, which enables rendering of HTML templates:
 
 ```python
 class BooksController(ApplicationController)
@@ -187,45 +223,9 @@ class BooksController(ApplicationController)
 ```
 
 
-### The Default 500 and 404 Templates
+### The default 500 and 404 templates
 
 By default an application will render either a 404 or a 500 error message. These messages are contained in static HTML files in the app/views/errors folder, in 404.html and 500.html respectively. You can customize these files to add some extra information and layout.
-
-## Routing
-
-web.py's URL handling scheme is simple yet powerful and flexible. at the top of each application, you usually see the full URL dispatching scheme defined as a tuple:
-
-```python
-urlpatterns = (
-    '/books/new',    {'controller':'books', 'action':'new'},
-    '/books/create', {'controller':'books', 'action':'create'},
-    '/books',        {'controller':'books', 'action':'index'},
-    '/',             {'controller':'index', 'action':'index'}
-)
-```
-Routes have priority defined by the order of appearance of the routes. The priority goes from top to bottom. The last route in that file is at the lowest priority will be applied last. If no route matches, 404 is returned.
-
-You can utilize the power of regular expressions to design more flexible url patterns. For example, /books/(new|create) will catch either new or create. The key point to understand is that this matching happens on the path of your URL. For example:
-
-```python
-urlpatterns = (
-    '/books/(new|create)', {'controller':'books', 'action':'{0}'},
-    '/books',              {'controller':'books', 'action':'index'},
-    '/',                   {'controller':'index', 'action':'index'}
-)
-```
-
-In the url pattern you can catch parameters which can be used in your handler class:
-
-```python
-urlpatterns = (
-    '/books/(new|create)',          {'controller':'books', 'action':'{0}'},
-    '/books/(\d+)/(edit|delete)',   {'controller':'books', 'action':'{1}'},
-    '/books/(\d+)',                 {'controller':'books', 'action':'show'},
-    '/books',                       {'controller':'books', 'action':'index'},
-    '/',                            {'controller':'index', 'action':'index'}
-)
-```
 
 ## Feedback
 
