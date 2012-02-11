@@ -82,8 +82,8 @@ In the url pattern you can catch parameters which can be used in your handler cl
 ```python
 urlpatterns = (
     '/books/(new|create)',          {'controller':'books', 'action':'{0}'},
-    '/books/(\d+)/(edit|delete)',   {'controller':'books', 'action':'{1}'},
-    '/books/(\d+)',                 {'controller':'books', 'action':'show'},
+    '/books/(\d+)/(edit|delete)',   {'controller':'books', 'action':'{1}', 'id':'{0}'},
+    '/books/(\d+)',                 {'controller':'books', 'action':'show', 'id':'{0}'},
     '/books',                       {'controller':'books', 'action':'index'},
     '/',                            {'controller':'index', 'action':'index'}
 )
@@ -98,7 +98,7 @@ Controller classes inherit from ApplicationController, a base class that contain
 ```ruby
 class BooksController < ApplicationController
 
-    def list
+    def index
         @books = Book.find(:all)
     end
     
@@ -114,16 +114,16 @@ class BooksController < ApplicationController
     def create
         @book = Book.new(params[:book])
         if @book.save
-            redirect_to :action = > 'list'
+            redirect_to :action => 'index'
         else
             @subjects = Subject.find(:all)
-            render :action = > 'new'
+            render :action => 'new'
         end
     end
     
     def delete
         Book.find(params[:id]).destroy
-        redirect_to :action = > 'list'
+        redirect_to :action => 'index'
     end
 end
 ```
@@ -134,29 +134,26 @@ end
 class BooksController(ApplicationController)
 
     def index(self):
-        books = Book.find('all')
-        return self.render(books=books)
+        self.books = Book.find("all")
         
     def show(self, id):
-        book = Book.find(id)
-        return self.render(book=book)
+        self.book = Book.find(id)
         
     def new(self):
-        book = Book()
-        subjects = Subject.find('all')
-        return self.render(book=book, subjects=subjects)
+        self.book = Book()
+        self.subjects = Subject.find("all")
     
     def create(self):
-        book = Book(self.params['book'])
-        if book.save():
-            return self.redirect_to(action='index')
+        self.book = Book(self.input('book'))
+        if self.book.save():
+            self.redirect_to(action="index")
         else:
-            subjects = Subject.find('all')
-            return self.render('new', book=book, subjects=subjects, error='Error message') 
+            self.subjects = Subject.find("all")
+            self.render("new") 
     
     def delete(self, id):
         Book.find(id).delete()
-        return self.redirect_to(action='index')
+        self.redirect_to(action='index')
 ```
 
 ## Views
