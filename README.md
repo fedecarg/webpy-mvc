@@ -1,5 +1,4 @@
-# webpy-mvc
-- - -
+# Introduction
 
 mvc.py provides mvc support to the existing [web.py](http://webpy.org/) python framework.
 
