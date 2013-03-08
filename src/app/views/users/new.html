@@ -1,0 +1,54 @@
+$def with (title, form)
+$var title:$title
+
+<div class="page-header">
+    <h1>$title</h1>
+</div>
+  
+$if not form.valid: 
+    <div class="alert-message error">
+        <a href="#" class="close">x</a>
+        <p>Sorry, your input was invalid</p>
+    </div>
+
+<form action="" method="post">
+<fieldset>
+<div class="clearfix">
+    <label for="user-email">Email</label>
+    <div class="input">
+      <input type="text" maxlength="100" size="30" id="user-email" class="large" name="email" value="">
+    </div>
+</div><!-- /clearfix -->
+<div class="clearfix">
+    <label for="user-username">Username</label>
+    <div class="input">
+      <input type="text" maxlength="50" size="30" id="user-username" class="large" name="name" value="">
+    </div>
+</div><!-- /clearfix -->
+<div class="clearfix">
+    <label for="user-password">Password</label>
+    <div class="input">
+      <input type="password" maxlength="30" size="30" id="user-password" class="large" name="password" value="">
+      <span class="help-block">
+        Write a 2-3 sentence description of the post you're submitting (html tags not supported)
+      </span>
+    </div>
+</div><!-- /clearfix -->
+<div class="clearfix">
+    <label for="user-gender">Gender</label>
+    <div class="input">
+      <select id="user-gender" name="gender">
+        <option>-- Select one --</option>
+        <option value="m">Male</option>
+        <option value="f">Female</option>
+      </select>
+    </div>
+</div><!-- /clearfix -->
+<div class="actions">
+    <input type="submit" value="Submit" class="btn primary">&nbsp;<button class="btn" type="reset">Cancel</button>
+</div>
+</fieldset>
+</form>
+
+
+<p><a href="/users">Go Back</a></p>

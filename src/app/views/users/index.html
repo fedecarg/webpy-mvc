@@ -1,0 +1,27 @@
+$def with (title='Users', users=None)
+$var title:$title
+
+<h1>$title</h1>
+
+<p><a href="/users/new">Add user</a></p>
+
+<table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Posts</th>
+        <th>Email</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    $for user in users: 
+      <tr>
+        <td>$user.id</td>
+        <td><a href="/users/$user.id">$user.username</a></td>
+        <td>$user.email</td>
+        <td>$user.created_at</a></td>
+      </tr>
+    </tbody>
+</table>
