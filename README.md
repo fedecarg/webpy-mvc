@@ -225,7 +225,7 @@ By default an application will render either a 404 or a 500 error message. These
 
 ## Feedback
 
-If for whatever reason you spot something to fix but cannot patch it yourself, please open an issue.  Also, any kind of discussion regarding web frameworks is more than welcome.
+If for whatever reason you spot something to fix but cannot patch it yourself, please open an issue.  Also, any kind of discussion regarding web frameworks is more than welcome @fedecarg
 
 
 
