@@ -20,6 +20,7 @@ mvc.py provides mvc support to the existing [web.py](http://webpy.org/) python f
 
 3. Start up the web server:
 
+        $ cd webpy-mvc-master/src
         $ python app.py
 
 4. Have a cup of tea (optional)
