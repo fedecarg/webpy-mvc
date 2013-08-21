@@ -15,7 +15,8 @@ mvc.py provides mvc support to the existing [web.py](http://webpy.org/) python f
 
 2. Download mvc.py:
 
-        $ curl -L https://github.com/fedecarg/webpy-mvc/tarball/ | tar xzf
+        $ wget --no-check-certificate https://github.com/fedecarg/webpy-mvc/archive/master.tar.gz
+        $ tar xzvf master
 
 3. Start up the web server:
 
