@@ -20,7 +20,8 @@
 import os, re
 import web
 
-from vendor.mvc.utils import import_class, camelize, underscore
+from vendor.mvc.utils import import_class
+from vendor.mvc.inflector import camelize, underscore
 
 
 class Application(web.application):

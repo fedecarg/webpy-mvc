@@ -153,7 +153,7 @@ class ActionController(object):
             False
         """
         return hasattr(getattr(self, method, None), '__call__')
-    
+        
     
     def redirect_to(self, controller=None, action=None):
         action = action or 'index'

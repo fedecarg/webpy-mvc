@@ -2,36 +2,28 @@ import hashlib, time
 import web
 
 from app.controllers.application import ApplicationController
-from app.models.user import User
+from app.models.user import User, UserForm
 
 
 class UsersController(ApplicationController):
 
-
     def index(self, page=1):
-        self.users = {}
-        #self.users = User.all({'page': page, 'limit': 5})
-        user = User.find(1)
-        web.debug(user.posts())
-        
-
+        self.users = User.all(page=page, limit=10)
 
     def new(self):
-        form = User.form('new')
-        title = 'Add User (%s) ' % self.request.get('method')
-        if self.request.method == 'GET' or not form.validates():
+        form = UserForm.get('new')
+        title = 'Add User (%s) ' % self.method
+        if self.method == 'GET' or not form.validates():
             return self.render(title=title, form=form)
-        
-        data = form.d
-        #data.api_key = hashlib.md5(data.name + str(time.time())).hexdigest()
-        id = User(data).save()
-        return self.redirect_to('/users/%s' % id)
-    
+        else:
+            data = form.d
+            #data.api_key = hashlib.md5(data.name + str(time.time())).hexdigest()
+            id = User(data).save()
+            return self.redirect_to('/users/%s' % id)
     
     def show(self, id):
         user = User.find(id)
         return self.render(user=user)
-    
     
     def delete(self, id):
         return self.notfound()

@@ -103,7 +103,9 @@ class ActiveRecord(object):
             >>> User.find('all', {'limit':5}, what='name', where={'name':'foo'})
             <sql: "SELECT name FROM users WHERE name = 'foo' ORDER BY id LIMIT 5 OFFSET 0">
         """
-        if id and id.isdigit():
+        if id and isinstance(id, int):
+            return cls.find_by_id(id, **params)
+        elif id and isinstance(id, str):
             return cls.find_by_id(int(id), **params)
         else:
             return cls.find_all(options, **params)
@@ -151,13 +153,16 @@ class ActiveRecord(object):
             >>> User.find_all(where={'name':'foo'}, limit=5, page=2)
             <sql: "SELECT * FROM user WHERE name = 'foo' ORDER BY id LIMIT 5 OFFSET 5">
         """        
-        options = cls.update_options(options)
-        rows = db.select(cls.Meta.table, **options)
-        if web.config.istest: return rows
+        opts = cls.merge_options(options)
+        rows = db.select(cls.Meta.table, _test=web.config.istest, **opts)
+        #if web.config.istest: return rows
+        
         records = []
         for row in rows:
             records.append(cls(row))
+
         """
+        page = 1 if not 'page' in options else int(options['page'])
         num_of_rows = db.query('SELECT COUNT(*) AS count FROM %s' % cls._table)[0].count
         next_page = page + 1 if (page + 1) * 5 < num_of_rows else None
         previous_page = page - 1 if page > 0 else None
@@ -189,13 +194,12 @@ class ActiveRecord(object):
     
     
     @classmethod
-    def update_options(cls, opts):
-        opts['limit'] = 100 if not 'limit' in p else int(opts['limit'])
-        opts['page'] = 1 if not 'page' in p else int(opts['page'])
-        opts['offset'] = 0 if opts['page'] <= 1 else (opts['page'] - 1) * opts['limit']
-        opts['order'] = 'id ASC' if not 'order' in p else opts['order']
-        if 'where' in p and isinstance(opts['where'], dict):
-            opts['where'] = web.db.sqlwhere(opts['where'])
+    def merge_options(cls, options, opts={}):
+        opts['limit'] = 100 if not 'limit' in options else int(options['limit'])
+        opts['offset'] = 0 if options['page'] <= 1 else (options['page'] - 1) * options['limit']
+        opts['order'] = 'id ASC' if not 'order' in options else options['order']
+        if 'where' in options and isinstance(options['where'], dict):
+            opts['where'] = web.db.sqlwhere(options['where'])
         return opts
         
     
@@ -346,6 +350,8 @@ class Data(dict):
         for k, v in dct.items():
             self[k] = v
             
+
+web.config.istest = False
 
 if __name__ == "__main__":
     import doctest

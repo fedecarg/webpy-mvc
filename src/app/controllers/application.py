@@ -1,5 +1,5 @@
 import web
-from vendor.mvc import ActionController
+from vendor.mvc.controller import ActionController
 
 
 class ApplicationController(ActionController):

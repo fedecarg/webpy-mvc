@@ -14,7 +14,7 @@ class User(ActiveRecord):
 class UserForm(object):
     
     @classmethod
-    def get_form(cls, name):
+    def get(cls, name):
         if name == 'new':
             return form.Form(
                 form.Textbox('name', form.notnull, description='Name:')
