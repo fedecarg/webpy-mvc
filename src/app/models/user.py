@@ -1,7 +1,5 @@
 import web
-
 from web import form
-
 
 class User(object):
 
@@ -13,7 +11,6 @@ class User(object):
         data = data or kwargs
         for field in self.Meta.fields:
             self.__dict__[field] = data.get(field, None)
-
 
 class UserDao(object):
     @classmethod
@@ -27,7 +24,6 @@ class UserDao(object):
             User({'id': 2, 'name': 'User 2'}),
             User({'id': 3, 'name': 'User 3'})
         ]
-
 
 class UserForm(object):
     

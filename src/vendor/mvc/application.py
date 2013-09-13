@@ -23,7 +23,6 @@ import web
 from vendor.mvc.utils import import_class
 from vendor.mvc.inflector import camelize, underscore
 
-
 class Application(web.application):
     """Application class to delegate requests based on controllers and actions:
     

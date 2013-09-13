@@ -20,7 +20,6 @@
 import os
 import web
 
-
 class ActionController(object):
     """Rendering a template and sending a response back to the browser:
         
