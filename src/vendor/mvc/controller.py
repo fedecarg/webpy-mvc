@@ -133,7 +133,7 @@ class ActionController(object):
         render = web.template.render(os.sep.join(['app', 'views']), base=layout)
         t = render._template(view)
         def template(**kw):
-            return render._base(t(**kw))
+            return render._base(t(**kwargs))
         return template(**self.view)
     
     

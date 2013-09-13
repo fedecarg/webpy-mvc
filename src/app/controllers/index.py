@@ -7,5 +7,4 @@ from app.models.user import User
 class IndexController(ApplicationController):
 
     def index(self):
-        user = User.find(3)
-        web.debug(self.params)
+        return self.redirect('/users')

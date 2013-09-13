@@ -1,6 +1,6 @@
 $def with (content)
 <!DOCTYPE html>
-<html lang="en" xmlns:og="http://opengraphprotocol.org/schema/">
+<html>
 <head>
     <title>$content.title</title>
     <meta charset="utf-8">
@@ -24,24 +24,21 @@ $def with (content)
 
     <!-- styles -->
     <link rel="stylesheet" href="/static/css/docs.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     
     <!-- jquery -->
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 </head>
 
 <body>
 
-<!-- Topbar
-================================================== -->
+<!-- Topbar -->
 <div class="topbar">
   <div class="fill">
     <div class="container">
-      <h3><a href="/">mvc.py</a></h3>
+      <h3><a href="/">Home</a></h3>
         <ul>
-          <li class="active"><a href="/users?sort=name">Sort by name<span></span></a></li>
-          <li class=""><a href="/users?sort=email">Sort by email<span></span></a></li>
-          <li class=""><a href="/users/new">Add user<span></span></a></li>
+          <li class=""><a href="/user/new">Add user<span></span></a></li>
         </ul>
     </div><!-- /container -->
   </div>
@@ -61,7 +58,7 @@ $def with (content)
 
     <div class="container">
       <p class="right">Powered by <span class="poweredby">web.py &amp; mvc.py</span></p>
-      <p>Copyright &copy; 2012 <a href="http://www.fedecag.com" target="_blank">Federico Cargnelutti</a>. All Rights Reserved.</p></p>
+      <p>Copyright &copy; 2013 <a href="http://www.fedecag.com" target="_blank">Federico Cargnelutti</a>. All Rights Reserved.</p></p>
     </div>
     
   </div>

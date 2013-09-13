@@ -2,27 +2,28 @@ import hashlib, time
 import web
 
 from app.controllers.application import ApplicationController
-from app.models.user import User, UserForm
+from app.models.user import UserDao, UserForm
 
 
 class UsersController(ApplicationController):
 
     def index(self, page=1):
-        self.users = User.all(page=page, limit=10)
+        users = UserDao.all()
+        return self.render(users=users)
 
     def new(self):
         form = UserForm.get('new')
         title = 'Add User (%s) ' % self.method
+        token = hashlib.md5(str(time.time())).hexdigest()
         if self.method == 'GET' or not form.validates():
-            return self.render(title=title, form=form)
+            return self.render(title=title, form=form, token=token)
         else:
             data = form.d
-            #data.api_key = hashlib.md5(data.name + str(time.time())).hexdigest()
-            id = User(data).save()
+            #UserDao.save(data)
             return self.redirect_to('/users/%s' % id)
     
     def show(self, id):
-        user = User.find(id)
+        user = UserDao.find(id)
         return self.render(user=user)
     
     def delete(self, id):

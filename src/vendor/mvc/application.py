@@ -78,7 +78,7 @@ class Application(web.application):
         return self.dispatch(**route)
     
     
-    def dispatch(self, controller=None, action=None, **params):
+    def dispatch(self, controller=None, action=None, **args):
         """Dispatch a request to a controller/action:
         
             >>> class UsersTestController(ActionController):
@@ -97,13 +97,14 @@ class Application(web.application):
         cls = import_class('%sController' % camelize(controller), 'app.controllers.%s' % controller)
         if not hasattr(cls, action):
             raise self.notfound()
-        params.update(dict(controller=controller, action=action))
+        params = {'controller': controller, 'action': action}
+        params.update(args)
         obj = cls(params)
-        view = getattr(obj, action)()
+        view = getattr(obj, action)(**args)
         if not view:
             view = obj.render(action, **dict(obj.view))
         return view
-    
+   
     
     def notfound(self):
         html = self.dispatch('errors', 'error_404')
